@@ -1,14 +1,14 @@
 # rawip4j
-java网络层封包协议, 实现数据包完整性校验 可用于无线模块(红外/zigbee/433Mhz)实现TCP/IP通信
+java网络层封包协议, 实现数据包完整性校验 可用于无线模块(红外/zigbee/433Mhz/315Mhz)实现TCP/IP通信
 java Network Layer protocol
 
 ## 说明
 + 没有重传确认功能, 发送不保证对方一定收到包，亦不保证顺序。需要结合 tun/tap 才能实现TCP通信
 + 如果收到包，则可保证包数据完整性(使用md5算法校验和)
 + 配合 tun/tap 使用，可实现多终端全双工通信, 建议MTU设置为256以下，恶劣环境下需设置更低的值
-+ 虽然433Mhz, Infrared-ray功耗低，但传输速率也较低，因此不适合用来浏览互联网，建议用在物联网少量数据传输场景
++ 虽然433Mhz, 315Mhz, Infrared-ray功耗低，但传输速率也较低，因此不适合用来浏览互联网，建议用在物联网少量数据传输场景
 
-user-program -> tun/tap -> rawip4j -> wireless(zigbee, 433Mhz, Infrared-ray) ->    (THE AIR) ->    wireless -> rawip4j -> tun/tap -> user-program
+user-program -> tun/tap -> rawip4j -> wireless(zigbee, 433Mhz, 315Mhz, Infrared-ray) ->    (THE AIR) ->    wireless -> rawip4j -> tun/tap -> user-program
 
 ## 使用方法: 
 ``` java
