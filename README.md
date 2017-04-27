@@ -1,5 +1,5 @@
 # rawip4j
-java链路层封包协议, 实现数据包完整性校验 可用于无线模块(红外/zigbee/433Mhz/315Mhz)实现TCP/IP通信
+java链路层封包协议, 实现数据包完整性校验 可用于无线收发模块(激光/可见光/2.4G/433Mhz/315Mhz ...)实现TCP/IP通信
 java Data Link Layer protocol
 
 ## 说明
@@ -10,29 +10,29 @@ java Data Link Layer protocol
 
 user-program -> tun/tap -> rawip4j -> wireless(zigbee, 433Mhz, 315Mhz, Infrared-ray) ->    (THE AIR) ->    wireless -> rawip4j -> tun/tap -> user-program
 
-## 使用方法: 
+## 使用方法:
 ``` java
 public static void main(String[] args) throws IOException, InterruptedException {
-		
+
 		// 定义队列用于存储接收到的包 received packet queue
 		final LinkedBlockingQueue<byte[]> queue = new LinkedBlockingQueue<>();
-				
+
 		// 通过 rxtx 获取设备的InputStream 和 OutputStream
 		//TODO get the InputStream & OutputStream from SerialPort devices
 		// you can use librxtx-java (aptitude install librxtx-java)
 		// or http://mvnrepository.com/artifact/org.rxtx/rxtx (untested)
 		InputStream ins = null;
 		OutputStream outs = null;
-		
-		
-		
+
+
+
 
 		/* *********************************************************************************************************************** */
-		
+
 		// 开始读取包，读到的包将放入队列中，这个方法是永不返回的，因此要新开线程执行
 		// start a thread to receive packet into the queue
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
@@ -42,14 +42,14 @@ public static void main(String[] args) throws IOException, InterruptedException 
 				}
 			}
 		}).start();
-		
-		
+
+
 		/* *********************************************************************************************************************** */
-		
+
     // 新开线程处理接收到的包
 		// start a received packet handler thread
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				while(true){
@@ -62,23 +62,23 @@ public static void main(String[] args) throws IOException, InterruptedException 
 				}
 			}
 		}).start();
-		
-		
+
+
 		/* *********************************************************************************************************************** */
-		
+
 		// 发送包，不保证对方一定接收到包，但如果接收到，则能保证包的数据完整性
    	 	// chksumlength: 校验和字节，可以设置为2-16，越大越安全, 建议8
 		// send a data packet
 		// chksumlength: use md5 to checksum a packet, the value can be 2-16, recommend 8
 		new PacketFrame((byte)8, "hello, rawip4j".getBytes()).write(outs);
-		
-		
+
+
 		/* *********************************************************************************************************************** */
-		
-		
+
+
 		TimeUnit.SECONDS.sleep(Long.MAX_VALUE);
-		
-		
+
+
 	}
 ```
 
