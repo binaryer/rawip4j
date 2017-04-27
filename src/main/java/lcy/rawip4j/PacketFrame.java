@@ -78,19 +78,20 @@ public class PacketFrame {
 	// 长度未满 -1
 	// 校验和失败 -2
 	// 格式错误意料外数据 -3
+	public static final int read_ok = 0;
 	public static final int read_tooshort = -1;
 	public static final int read_chksumerr = -2;
 	public static final int read_unexpected = -3;
 
-	public static int read(byte[] bs, int startindex, int bslength, final PacketFrame packageframe) {
-		
-		/*
-		System.out.println("readPackage");
-		for(int i=0; i<10; i++){
-			System.out.print(bs[startindex+i]+",");
-		}
-		System.out.println();
-		*/
+	/**
+	 * 
+	 * @param bs
+	 * @param startindex
+	 * @param bslength
+	 * @param packageframe
+	 * @return	[是否成功, 包长]
+	 */
+	public static int[] read(byte[] bs, int startindex, int bslength, final PacketFrame packageframe) {
 		
 		final ByteBuffer bb = ByteBuffer.wrap(bs, startindex, bslength);
 		for(int i=0; i<MAGIC.length; i++){
@@ -98,13 +99,13 @@ public class PacketFrame {
 		}
 
 		if (bslength < bb.position()+2)
-			return read_tooshort;
+			return new int[]{read_tooshort, -1};
 		packageframe.datalength = bb.getShort();
-		if(packageframe.datalength<1)	return read_unexpected;
+		if(packageframe.datalength<1)	return new int[]{read_unexpected, -1};
 		//System.out.println("startindex="+startindex +" bslength="+bslength+ " bb.position()="+bb.position()+" packageframe.datalength = " + packageframe.datalength);
 
 		if (bslength < bb.position()+packageframe.datalength)
-			return read_tooshort;
+			return new int[]{read_tooshort, -1};
 		
 		packageframe.data = new byte[packageframe.datalength];
 		for(int i=0; i<packageframe.datalength; i++){
@@ -112,13 +113,13 @@ public class PacketFrame {
 		}
 
 		if (bslength < bb.position()+1)
-			return read_tooshort;
+			return new int[]{read_tooshort, -1};
 		packageframe.chksumlength = bb.get();
 		
-		if(packageframe.chksumlength<1)	return read_unexpected;
+		if(packageframe.chksumlength<1)	return new int[]{read_unexpected, -1};
 
 		if (bslength < bb.position()+packageframe.chksumlength)
-			return read_tooshort;
+			return new int[]{read_tooshort, -1};
 
 		final byte[] chksumbs = new byte[packageframe.chksumlength];
 		for(int i=0; i<packageframe.chksumlength; i++){
@@ -127,10 +128,10 @@ public class PacketFrame {
 		
 		
 		if(!Arrays.equals(chksumbs, ArrayUtils.subarray(DigestUtils.md5(packageframe.data), 0, packageframe.chksumlength))){ 
-			return read_chksumerr;
+			return new int[]{read_chksumerr, bb.position()};
 		}
 		
-		return bb.position();
+		return new int[]{read_ok, bb.position()};
 
 	}
 
