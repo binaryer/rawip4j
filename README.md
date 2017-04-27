@@ -1,6 +1,6 @@
 # rawip4j
-java网络层封包协议, 实现数据包完整性校验 可用于无线模块(红外/zigbee/433Mhz/315Mhz)实现TCP/IP通信
-java Network Layer protocol
+java链路层封包协议, 实现数据包完整性校验 可用于无线模块(红外/zigbee/433Mhz/315Mhz)实现TCP/IP通信
+java Data Link Layer protocol
 
 ## 说明
 + 没有重传确认功能, 发送不保证对方一定收到包，亦不保证顺序。需要结合 tun/tap 才能实现TCP通信
