@@ -15,7 +15,7 @@ user-program -> tun/tap -> rawip4j -> wireless(zigbee, 433Mhz, 315Mhz, Infrared-
 public static void main(String[] args) throws IOException, InterruptedException {
 
 		// 定义队列用于存储接收到的包 received packet queue
-		final LinkedBlockingQueue<byte[]> queue = new LinkedBlockingQueue<>();
+		final BlockingQueue<byte[]> queue = new LinkedBlockingQueue<>();
 
 		// 通过 rxtx 获取设备的InputStream 和 OutputStream
 		//TODO get the InputStream & OutputStream from SerialPort devices
@@ -29,19 +29,11 @@ public static void main(String[] args) throws IOException, InterruptedException 
 
 		/* *********************************************************************************************************************** */
 
-		// 开始读取包，读到的包将放入队列中，这个方法是永不返回的，因此要新开线程执行
-		// start a thread to receive packet into the queue
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					RxdUtil.readloop(ins, queue);
-				} catch (IOException | InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
+		// 开始读取包，读到的包将放入BlockingQueue队列中
+		// 这个方法是立即返回的(无阻塞)
+		// 非线程安全, 如用于多线程场景，请做好加锁同步
+		// receive packet into the queue
+		RxdUtil.register(ins, queue);
 
 
 		/* *********************************************************************************************************************** */
