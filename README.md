@@ -80,3 +80,6 @@ public static void main(String[] args) throws IOException, InterruptedException 
 
 ![](https://github.com/binaryer/rawip4j/raw/master/2017-04-26-112556_759x827_scrot.png)  
 ![](https://github.com/binaryer/rawip4j/raw/master/IMG_20170426_122613.jpg)
+
+单工激光通信
+
