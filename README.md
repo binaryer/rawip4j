@@ -83,3 +83,7 @@ public static void main(String[] args) throws IOException, InterruptedException 
 
 ### 单工激光传输文件
 ![](https://github.com/binaryer/rawip4j/blob/master/IMG_20170504_141239.jpg)
+
+
+### 可见光通信
+![](https://github.com/binaryer/rawip4j/blob/master/IMG_20170522_195657.jpg)
