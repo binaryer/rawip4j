@@ -88,5 +88,5 @@ public static void main(String[] args) throws IOException, InterruptedException 
 ### 可见光通信
 ![](https://github.com/binaryer/rawip4j/blob/master/IMG_20170522_195657.jpg)
 
-<video src="https://github.com/binaryer/rawip4j/blob/master/lifi.mp4" width="600" height="400" controls="controls">
+<video src="https://raw.githubusercontent.com/binaryer/rawip4j/master/lifi.mp4" width="600" height="400" controls="controls">
 </video>
