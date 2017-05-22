@@ -87,3 +87,8 @@ public static void main(String[] args) throws IOException, InterruptedException 
 
 ### 可见光通信
 ![](https://github.com/binaryer/rawip4j/blob/master/IMG_20170522_195657.jpg)
+
+<video width="600" height="400" controls>
+  <source src="https://github.com/binaryer/rawip4j/blob/master/lifi.mp4" type="video/mp4">
+	您的浏览器不支持Video标签。
+</video>
